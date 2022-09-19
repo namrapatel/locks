@@ -8,7 +8,7 @@ import "./players/Player.sol";
 contract Game {
     
     mapping(uint256 => Fort) public forts;
-    uint256 fortCount;
+    uint256 public fortCount;
 
     Market market;
 
@@ -40,19 +40,19 @@ contract Game {
         fortCount++;
     }
 
-    function buyPower1() public payable {
-        market.buyPower1{value: msg.value}();
-        getPlayerData[msg.sender].power += market.power1();
+    function buyWeapon1() public payable {
+        market.buyWeapon1{value: msg.value}();
+        getPlayerData[msg.sender].power += market.weapon1();
     }
 
-    function buyPower2() public payable {
-        market.buyPower2{value: msg.value}();
-        getPlayerData[msg.sender].power += market.power2();
+    function buyWeapon2() public payable {
+        market.buyWeapon2{value: msg.value}();
+        getPlayerData[msg.sender].power += market.weapon2();
     }
 
-    function buyPower3() public payable {
-        market.buyPower3{value: msg.value}();
-        getPlayerData[msg.sender].power += market.power3();
+    function buyWeapon3() public payable {
+        market.buyWeapon3{value: msg.value}();
+        getPlayerData[msg.sender].power += market.weapon3();
     }
     
 }

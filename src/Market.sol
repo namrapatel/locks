@@ -3,18 +3,17 @@ pragma solidity ^0.8.13;
 
 contract Market {
 
-    address owner;
+    address internal owner;
 
-    // TODO: remove?
-    uint256 power1Available = 12;
-    uint256 power2Available = 8;
-    uint256 power3Available = 4;
-    uint256 power1Cost = 40;
-    uint256 power2Cost = 80;
-    uint256 power3Cost = 120;
-    uint256 public power1 = 3;
-    uint256 public power2 = 6;
-    uint256 public power3 = 9;
+    uint256 internal weapon1Available = 12;
+    uint256 internal weapon2Available = 8;
+    uint256 internal weapon3Available = 4;
+    uint256 internal constant weapon1Cost = 40;
+    uint256 internal constant weapon2Cost = 80;
+    uint256 internal constant weapon3Cost = 120;
+    uint256 public constant weapon1 = 3;
+    uint256 public constant weapon2 = 6;
+    uint256 public constant weapon3 = 9;
 
     constructor() {
         owner = msg.sender;
@@ -26,18 +25,21 @@ contract Market {
         _;
     }
 
-    function buyPower1() public payable onlyOwner {
-        require(msg.value >= power1Cost, "Not enough ether sent");
-        power1Available--;
+    function buyWeapon1() public payable onlyOwner {
+        require(weapon1Available > 0, "No weapon1 available.");
+        require(msg.value >= weapon1Cost, "Not enough ether sent");
+        weapon1Available--;
     }
 
-    function buyPower2() public payable onlyOwner {
-        require(msg.value >= power2Cost, "Not enough ether sent");
-        power2Available--;
+    function buyWeapon2() public payable onlyOwner {
+        require(weapon2Available > 0, "No weapon2 available.");
+        require(msg.value >= weapon2Cost, "Not enough ether sent");
+        weapon2Available--;
     }
 
-    function buyPower3() public payable onlyOwner {
-        require(msg.value >= power3Cost, "Not enough ether sent");
-        power3Available--;
+    function buyWeapon3() public payable onlyOwner {
+        require(weapon3Available > 0, "No weapon3 available.");
+        require(msg.value >= weapon3Cost, "Not enough ether sent");
+        weapon3Available--;
     }
 }
