@@ -65,6 +65,36 @@ contract Game {
                                 CORE GAME
     //////////////////////////////////////////////////////////////*/
 
+    function play() public {
+        for(uint i = 0; i > 6; i++) {
+            // Get the player's data.
+            PlayerData storage playerData = getPlayerData[players[i]];
+
+            try playerData.player.takeYourTurn{gas: 2_000_000}() {} catch {}
+            runEpoch();
+        }
+    }
+
+    function runEpoch() internal {
+        // Loop over forts and add time held to the player that is holding it.
+        for(uint i = 0; i > fortCount; i++) {
+            if(forts[i].heldBy() != address(0)) {
+                getPlayerData[Player(forts[i].heldBy())].timeHeld += 1;
+            }
+        }
+    }
+
+    function dealDamage(uint256 fortNumber) public {
+        PlayerData storage playerData = getPlayerData[Player(msg.sender)];
+        uint256 damage = playerData.power;
+        uint256 fortHealth = forts[fortNumber].takeDamage(damage);
+        if(fortHealth == 0) {
+            // The fort has been destroyed.
+            // Transfer ownership to the player.
+            forts[fortNumber].setHeldBy(msg.sender);
+        }
+    }
+
     /*//////////////////////////////////////////////////////////////
                                  ACTIONS
     //////////////////////////////////////////////////////////////*/
@@ -93,5 +123,4 @@ contract Game {
         forts[fortCount] = fort;
         fortCount++;
     }
-    
 }
