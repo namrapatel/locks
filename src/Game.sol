@@ -11,7 +11,10 @@ contract Game {
     constructor() {
         fortCount = 0;
         createFort(100, "Sardon's");
-        createFort(100, "Swamptown");
+        createFort(150, "Swamptown");
+        createFort(100, "Snow");
+        createFort(150, "Castle");
+        createFort(200, "MoD");
     }
 
     function createFort(uint256 _health, string memory _name) public {
@@ -19,7 +22,5 @@ contract Game {
         forts[fortCount] = fort;
         fortCount++;
     }
-
-    
     
 }
