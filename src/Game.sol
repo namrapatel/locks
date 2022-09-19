@@ -20,8 +20,8 @@ contract Game {
     }
 
     Player[] public players;
-
     mapping(Player => PlayerData) public getPlayerData;
+    // TODO: Player registration and PlayerAddress -> PlayerData mapping?
 
     constructor() {
         fortCount = 0;
@@ -39,4 +39,20 @@ contract Game {
         forts[fortCount] = fort;
         fortCount++;
     }
+
+    function buyPower1() public payable {
+        market.buyPower1{value: msg.value}();
+        getPlayerData[msg.sender].power += market.power1();
+    }
+
+    function buyPower2() public payable {
+        market.buyPower2{value: msg.value}();
+        getPlayerData[msg.sender].power += market.power2();
+    }
+
+    function buyPower3() public payable {
+        market.buyPower3{value: msg.value}();
+        getPlayerData[msg.sender].power += market.power3();
+    }
+    
 }

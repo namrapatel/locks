@@ -5,17 +5,22 @@ contract Market {
 
     address owner;
 
+    // TODO: remove?
     uint256 power1Available = 12;
     uint256 power2Available = 8;
     uint256 power3Available = 4;
     uint256 power1Cost = 40;
     uint256 power2Cost = 80;
     uint256 power3Cost = 120;
+    uint256 public power1 = 3;
+    uint256 public power2 = 6;
+    uint256 public power3 = 9;
 
     constructor() {
         owner = msg.sender;
     }
 
+    // TODO: Change functions to internal instead?
     modifier onlyOwner() {
         require(msg.sender == owner, "Only owner can call this function.");
         _;
