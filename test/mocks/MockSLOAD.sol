@@ -1,11 +1,11 @@
 // SPDX-License-Identifier: MIT License
 pragma solidity ^0.8.13;
 
-contract DummyContract {
+contract MockSLOAD {
 
-    function dummyFunction() external {
+    function dummyFunction() external view {
         assembly {
-            sstore(25, 42)
+            let x := sload(0)
         }
     }
 }

@@ -9,7 +9,8 @@ import {Vm} from "forge-std/Vm.sol";
 
 // Contracts
 import "./mocks/Seed.sol";
-import "./mocks/DummyContract.sol";
+import "./mocks/MockSSTORE.sol";
+import "./mocks/MockSLOAD.sol";
 
 contract SeedTest is DSTestPlus {
 
@@ -17,17 +18,24 @@ contract SeedTest is DSTestPlus {
     Utilities internal utils;
 
     Seed seed;
-    DummyContract dummyContract;
+    MockSSTORE mockSSTORE;
+    MockSLOAD mockSLOAD;
 
     function setUp() public {
         utils = new Utilities();
 
         seed = new Seed();
-        dummyContract = new DummyContract();
+        mockSSTORE = new MockSSTORE();
+        mockSLOAD = new MockSLOAD();
     }
 
     function testOpcodeExists() public {
-        bool opcodeExists = seed.checkOpcodeExists(address(dummyContract));
+        bool opcodeExists = seed.checkOpcodeExists(address(mockSSTORE));
         assertTrue(opcodeExists);
     } 
+
+    function testFailOpcodeDoesNotExist() public {
+        bool opcodeExists = seed.checkOpcodeExists(address(mockSLOAD));
+        assertTrue(opcodeExists);
+    }
 }
