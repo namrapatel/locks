@@ -8,20 +8,19 @@ contract Seed {
 
     contructor() public {}
 
-    function addContract(bytes memory code) public returns (bool) {
+    function addContract(address memory submittedContract) public returns (bool) {
         bool allowed = gateCondition(code);
 
         if (allowed) {
-            address newContract = new Contract(code);
-            contracts[counter] = newContract;
+            contracts[counter] = submittedContract;
             counter++;
         } else {
             return false;
         }
     }
 
-    function gateCondition(bytes memory code) public returns (bool) {
-        
+    function gateCondition(address memory submittedContract) public returns (bool) {
+        // Add requirements here
+        return true;
     }
-
 }
