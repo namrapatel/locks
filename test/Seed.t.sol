@@ -28,6 +28,6 @@ contract SeedTest is DSTestPlus {
 
     function testOpcodeExists() public {
         bool opcodeExists = seed.checkOpcodeExists(address(dummyContract));
-        assertBoolEq(opcodeExists, true);
+        assertTrue(opcodeExists);
     } 
 }

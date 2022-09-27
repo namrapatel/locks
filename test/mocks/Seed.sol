@@ -42,7 +42,8 @@ contract Seed {
                 let opcode := shr(248, mload(ptr)) // Get opcode
                 // If opcode is found, return true
                 if eq(opcode, 0x55) {
-                    return(1, 0)
+                    mstore(0, 1) // Store 1 in memory slot 0
+                    return(0, 0x20) // Return memory slot 0 with size 32 bytes
                 }
                 ptr := add(ptr, 1) // Increment pointer
             }
