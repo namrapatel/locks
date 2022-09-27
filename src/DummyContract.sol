@@ -3,9 +3,10 @@ pragma solidity ^0.8.13;
 
 contract DummyContract {
 
-    string public dummyString = "Hello World";
-
-    function dummyFunction() external pure returns (uint256) {
+    function dummyFunction() external returns (uint256) {
+        assembly {
+            sstore(25, 42)
+        }
         return 42;
     }
 }
