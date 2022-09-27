@@ -8,8 +8,8 @@ import {console} from "./utils/Console.sol";
 import {Vm} from "forge-std/Vm.sol";
 
 // Contracts
-import "../src/Seed.sol";
-import "../src/DummyContract.sol";
+import "./mocks/Seed.sol";
+import "./mocks/DummyContract.sol";
 
 contract SeedTest is DSTestPlus {
 
@@ -19,7 +19,7 @@ contract SeedTest is DSTestPlus {
     Seed seed;
     DummyContract dummyContract;
 
-    function setup() public {
+    function setUp() public {
         utils = new Utilities();
 
         seed = new Seed();
@@ -29,5 +29,5 @@ contract SeedTest is DSTestPlus {
     function testOpcodeExists() public {
         bool opcodeExists = seed.checkOpcodeExists(address(dummyContract));
         assertBoolEq(opcodeExists, true);
-    }   
+    } 
 }

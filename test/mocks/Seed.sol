@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT License
 pragma solidity ^0.8.13;
+import {console} from "../utils/Console.sol";
 
 contract Seed {
 
@@ -38,7 +39,7 @@ contract Seed {
             let end := add(ptr, size) // Get end of submitted contract
             // Loop through all opcodes in submitted contract
             for { } lt(ptr, end) { } {
-                let opcode := shr(224, mload(ptr)) // Get opcode
+                let opcode := shr(248, mload(ptr)) // Get opcode
                 // If opcode is found, return true
                 if eq(opcode, 0x55) {
                     return(1, 0)
