@@ -21,7 +21,7 @@ contract Seed {
     }
 
     function gateCondition(bytes memory code) public returns (bool) {
-
+        
     }
 
 }
