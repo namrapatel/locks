@@ -10,8 +10,6 @@ contract ReadContractCode {
     constructor() {
         dummyContract = new DummyContract();
     }
-
-    
     
     function readCode(address _contract) external view returns (bytes memory) {
         bytes memory code;
