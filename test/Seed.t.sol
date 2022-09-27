@@ -2,7 +2,6 @@
 pragma solidity ^0.8.13;
 
 // Foundry
-import "forge-std/Test.sol";
 import {DSTestPlus} from "solmate/test/utils/DSTestPlus.sol";
 import {Utilities} from "./utils/Utilities.sol";
 import {console} from "./utils/Console.sol";
@@ -29,6 +28,6 @@ contract SeedTest is DSTestPlus {
 
     function testOpcodeExists() public {
         bool opcodeExists = seed.checkOpcodeExists(address(dummyContract));
-        vm.equal(opcodeExists, true, "Opcode exists");
+        assertBoolEq(opcodeExists, true);
     }   
 }
