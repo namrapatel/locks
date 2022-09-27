@@ -1,8 +1,5 @@
 out/
 cache/
-node_modules/
 .env
 .DS_Store
 env
-__pycache__/
-lcov.info
