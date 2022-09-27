@@ -1,13 +1,15 @@
 # seeds
 
-### Opcode modules
+### Modules
 
-| **Opcode**   | **Description**                                                         |
-|--------------|-------------------------------------------------------------------------|
-| `BALANCE`      | Check balance of submitted contract address                           |
-| `SLOAD`        | Check if submitted contract READs from storage                        |
-| `SSTORE`       | Check if submitted contract WRITEs to storage                         |
-| `CALL`         | Check if submitted contract uses `CALL`, find address it calls        |
-| `DELEGATECALL` | Check if submitted contract uses `DELEGATECALL`, find address it calls|
-| `STATICCALL`   | Check if submitted contract uses `STATICCALL`, find address it calls  |
-| `SELFDESTRUCT` | Check if submitted contract `SELFDESTRUCT`s                           |
+| **Function**                                                                                                        | **Relevant Opcode** | **Complete** |
+|---------------------------------------------------------------------------------------------------------------------|---------------------|--------------|
+| Check if submitted contract READs from storage                                                                      | `SLOAD`             |              |
+| Check if submitted contract WRITEs to storage                                                                       | `SSTORE`            |              |
+| Check if submitted contract uses `CALL`, find address it calls, check against blacklist                             | `CALL`              |              |
+| If submitted contract uses `CALL`, check call address and function signature being called against blacklist         | `CALL`              |              |
+| Check if submitted contract uses `DELETGATECALL`, find address it calls, check against blacklist                    | `DELEGATECALL`      |              |
+| If submitted contract uses `DELEGATECALL`, check call address and function signature being called against blacklist | `DELEGATECALL`      |              |
+| Check if submitted contract uses `STATICCALL`, find address it calls, check against blacklist                       | `STATICCALL`        |              |
+| If submitted contract uses `STATICCALL`, check call address and function signature being called against blacklist   | `STATICCALL`        |              |
+| Check if submitted contract `SELFDESTRUCT`s                                                                         | `SELFDESTRUCT`      |              |
