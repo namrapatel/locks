@@ -27,10 +27,10 @@ contract LibCallTest is DSTestPlus {
         mockCall = new MockCall();
     }
 
-    function testCheckCallOpcodeSearchWorks() public {
-        // Check that checkCall returns false when submitted contract does not use CALL opcode
-        assertTrue(!LibCall.checkCall(address(mockDefault), new address[](0)));
-    }
+    // function testCheckCallOpcodeSearchWorks() public {
+    //     // Check that checkCall returns false when submitted contract does not use CALL opcode
+    //     assertTrue(!LibCall.checkCall(address(mockDefault), new address[](0)));
+    // }
 
     function testCheckCall() public {
         // Check that checkCall returns true when submitted contract uses CALL opcode and calls an address in the blacklist

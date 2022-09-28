@@ -3,11 +3,15 @@ pragma solidity ^0.8.13;
 
 contract MockCallee {
 
-    function testFunc() public pure returns (uint) {
+    uint coolNum = 0;
+
+    function fakeFunc() public returns (uint) {
+        coolNum++;
         return 1;
     }
 
-    function testFunc1(uint num) public pure returns (uint) {
+    function fakeFunc1(uint num) public returns (uint) {
+        coolNum += num;
         return 2;
     }
 }
@@ -18,18 +22,21 @@ contract MockCall {
     address public constant CALLER2 = 0xc0E53C70dD53b5e1A8275Aa65ec07F20038F8317;
     address public constant CALLEE = 0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5;
 
-    // contract.func() with no arguments
+    // 20
+    // contract.func() with no arguments 
     function call0() public {
         MockCallee callee = MockCallee(CALLEE);
-        callee.testFunc();
+        callee.fakeFunc();
     }
 
+    // 22
     // contract.func(arg) with 1 argument
     function call1() public {
         MockCallee callee = MockCallee(CALLEE);
-        callee.testFunc1(1);
+        callee.fakeFunc1(1);
     }
-
+    
+    // 22
     // .call() with no 1 empty string argument
     function call2() public {
         CALLER.call("");
@@ -37,18 +44,18 @@ contract MockCall {
 
     // .call() with abi.encodeWithSignature()
     function call3() public {
-        (bool success, bytes memory data) = CALLER.call(abi.encodeWithSignature("testFunc()"));
+        (bool success, bytes memory data) = CALLER.call(abi.encodeWithSignature("fakeFunc()"));
     }
 
     // .call() with abi.encodeWithSelector()
     function call4() public {
-        (bool success, bytes memory data) = CALLER.call(abi.encodeWithSelector(bytes4(keccak256("testFunc()"))));
+        (bool success, bytes memory data) = CALLER.call(abi.encodeWithSelector(bytes4(keccak256("fakeFunc()"))));
     }
 
     // .call() with abi.encodeCall()
     function call5() public {
         (bool success, bytes memory data) = CALLER.call(abi.encodeCall(
-            MockCallee.testFunc,
+            MockCallee.fakeFunc,
             ())
         );
     }
@@ -56,7 +63,7 @@ contract MockCall {
     // .call() with abi.encodeCall() with 1 argument
     function call6() public {
         (bool success, bytes memory data) = CALLER.call(abi.encodeCall(
-            MockCallee.testFunc1,
+            MockCallee.fakeFunc1,
             (1))
         );
     }
