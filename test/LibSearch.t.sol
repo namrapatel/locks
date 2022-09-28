@@ -8,7 +8,6 @@ import {console} from "./utils/Console.sol";
 import {Vm} from "forge-std/Vm.sol";
 
 // Contracts
-import "./mocks/Seed.sol";
 import "./mocks/MockDefault.sol";
 import "./mocks/MockSSTORE.sol";
 import "./mocks/MockSLOAD.sol";

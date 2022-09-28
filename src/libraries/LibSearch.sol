@@ -11,7 +11,7 @@ library LibSearch {
             let end := add(ptr, size) // Get end of submitted contract
             // Loop through all opcodes in submitted contract
             for { } lt(ptr, end) { } {
-                let opcode := shr(248, mload(ptr)) // Get opcode
+                let opcode := shr(248, mload(ptr)) // Get opcode by shifting right 248 bits (31 bytes, so we get the final byte)
                 // If opcode is found, return true
                 if eq(opcode, _opcode) {
                     mstore(0, 1) // Store 1 in memory slot 0
@@ -32,7 +32,7 @@ library LibSearch {
             let end := add(ptr, size) // Get end of submitted contract
             // Loop through all opcodes in submitted contract
             for { } lt(ptr, end) { } {
-                let opcode := shr(248, mload(ptr)) // Get opcode
+                let opcode := shr(248, mload(ptr)) // Get opcode by shifting right 248 bits (31 bytes, so we get the final byte)
                 // Loop through all opcodes in _opcodes
                 for { let i := 0 } lt(i, mload(_opcodes)) { i := add(i, 1) } {
                     // If opcode is found, return true
