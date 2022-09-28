@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 library LibSearch {
 
-    function checkOpcodeExists(address submittedContract) public view returns (bool) {
+    function checkOpcodeExists(address submittedContract, bytes1 _opcode) public view returns (bool) {
         // Loop through all opcodes in submitted contract
         // If opcode is found, return true
         // If opcode is not found, return false
@@ -16,7 +16,7 @@ library LibSearch {
             for { } lt(ptr, end) { } {
                 let opcode := shr(248, mload(ptr)) // Get opcode
                 // If opcode is found, return true
-                if eq(opcode, 0x55) {
+                if eq(opcode, _opcode) {
                     mstore(0, 1) // Store 1 in memory slot 0
                     return(0, 0x20) // Return memory slot 0 with size 32 bytes
                 }

@@ -21,11 +21,11 @@ contract Seed {
     }
 
     function gateCondition(address submittedContract) public view returns (bool) {
-        bool opcodeExists = LibSearch.checkOpcodeExists(submittedContract);
-        if (opcodeExists) {
-            return true;
-        } else {
-            return false;
-        }
+        // bool opcodeExists = LibSearch.checkOpcodeExists(submittedContract);
+        // if (opcodeExists) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
     }
 }
