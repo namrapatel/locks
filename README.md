@@ -4,8 +4,8 @@
 
 | **Function name**  | **Functionality**                                                                                                   | **Relevant Opcode** | **Complete** |
 |--------------------|---------------------------------------------------------------------------------------------------------------------|---------------------|--------------|
-| `testfunctionname` | Check if submitted contract READs from storage                                                                      | `SLOAD`             |              |
-|                    | Check if submitted contract WRITEs to storage                                                                       | `SSTORE`            |              |
+|    `checkSLOAD`    | Check if submitted contract READs from storage                                                                      | `SLOAD`             |              |
+|   `checkSSTORE`    | Check if submitted contract WRITEs to storage                                                                       | `SSTORE`            |              |
 |                    | Check if submitted contract uses `CALL`, find address it calls, check against blacklist                             | `CALL`              |              |
 |                    | If submitted contract uses `CALL`, check call address and function signature being called against blacklist         | `CALL`              |              |
 |                    | Check if submitted contract uses `DELETGATECALL`, find address it calls, check against blacklist                    | `DELEGATECALL`      |              |
