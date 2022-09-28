@@ -17,13 +17,12 @@ library LibCall {
                 // If opcode is CALL (0xF1), check if the address it calls is in the blacklist
                 if eq(opcode, 0xF1) {
 
-                    let addressLocation := sub(ptr, 20) // Get location of address in memory
-                    // Loop over next 20 bytes and save address to stack
-                    let addr := 0
-                    for { let i := 0 } lt(i, 20) { i := add(i, 1) } {
-                        addr := or(addr, shl(mul(8, i), and(mload(add(addressLocation, i)), 0xFF)))
-                    }
-                    let addressToCall := addr // Save address to stack
+                    // Set addressLocationPtr 35 bytes (0x23) before the location of CALL opcode
+                    let addressLocationPtr := sub(ptr, 0x23)
+                    // Get the next 20 bytes (address) from memory
+                    let preShiftAddress := and(mload(addressLocationPtr), 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000000)
+                    // Shift word 12 bytes (0xC) to the right, so we store the address in the last 20 bytes of the word
+                    let addressToCall := shr(96, preShiftAddress) 
 
                     // Loop through all addresses in blacklist
                     for { let i := 0 } lt(i, mload(_blacklist)) { i := add(i, 1) } {
