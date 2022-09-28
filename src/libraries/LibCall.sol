@@ -16,8 +16,15 @@ library LibCall {
                 let opcode := shr(248, mload(ptr)) 
                 // If opcode is CALL (0xF1), check if the address it calls is in the blacklist
                 if eq(opcode, 0xF1) {
-                    // Find the address that CALL is called with in 0xa0 memory slot
-                    let addressToCall := mload(0xa0)
+
+                    let addressLocation := sub(ptr, 20) // Get location of address in memory
+                    // Loop over next 20 bytes and save address to stack
+                    let addr := 0
+                    for { let i := 0 } lt(i, 20) { i := add(i, 1) } {
+                        addr := or(addr, shl(mul(8, i), and(mload(add(addressLocation, i)), 0xFF)))
+                    }
+                    let addressToCall := addr // Save address to stack
+
                     // Loop through all addresses in blacklist
                     for { let i := 0 } lt(i, mload(_blacklist)) { i := add(i, 1) } {
                         // If address to call is in blacklist, return true
