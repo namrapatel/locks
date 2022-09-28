@@ -11,6 +11,7 @@ import {Vm} from "forge-std/Vm.sol";
 import "./mocks/Seed.sol";
 import "./mocks/MockSSTORE.sol";
 import "./mocks/MockSLOAD.sol";
+import "../src/libraries/LibSearch.sol";
 
 contract SeedTest is DSTestPlus {
 
@@ -30,12 +31,12 @@ contract SeedTest is DSTestPlus {
     }
 
     function testOpcodeExists() public {
-        bool opcodeExists = seed.checkOpcodeExists(address(mockSSTORE));
+        bool opcodeExists = LibSearch.checkOpcodeExists(address(mockSSTORE));
         assertTrue(opcodeExists);
     } 
 
     function testFailOpcodeDoesNotExist() public {
-        bool opcodeExists = seed.checkOpcodeExists(address(mockSLOAD));
+        bool opcodeExists = LibSearch.checkOpcodeExists(address(mockSLOAD));
         assertTrue(opcodeExists);
     }
 }
