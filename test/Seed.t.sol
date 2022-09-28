@@ -31,13 +31,13 @@ contract SeedTest is DSTestPlus {
     }
 
     function testOpcodeExists() public {
-        bytes1 opcode = 0x55;
+        bytes32 opcode = bytes32(uint256(0x55));
         bool opcodeExists = LibSearch.checkOpcodeExists(address(mockSSTORE), opcode);
         assertTrue(opcodeExists);
     } 
 
     function testFailOpcodeDoesNotExist() public {
-        bytes1 opcode = 0x55;
+        bytes32 opcode = bytes32(uint256(0x55));
         bool opcodeExists = LibSearch.checkOpcodeExists(address(mockSLOAD), opcode);
         assertTrue(opcodeExists);
     }

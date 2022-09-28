@@ -3,7 +3,7 @@ pragma solidity ^0.8.13;
 
 library LibSearch {
 
-    function checkOpcodeExists(address submittedContract, bytes1 _opcode) public view returns (bool) {
+    function checkOpcodeExists(address submittedContract, bytes32 _opcode) public view returns (bool) {
         // Loop through all opcodes in submitted contract
         // If opcode is found, return true
         // If opcode is not found, return false
