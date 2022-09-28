@@ -14,6 +14,16 @@ contract MockCallee {
         coolNum += num;
         return 2;
     }
+
+    function coolFunc() public returns (uint) {
+        coolNum++;
+        return 1;
+    }
+
+    function coolFunc1(uint num) public returns (uint) {
+        coolNum += num;
+        return 2;
+    }
 }
 
 contract MockCall {
@@ -24,13 +34,13 @@ contract MockCall {
     // contract.func() with no arguments 
     function call0() public {
         MockCallee callee = MockCallee(CALLEE);
-        callee.fakeFunc();
+        callee.coolFunc();
     }
 
     // contract.func(arg) with 1 argument
     function call1() public {
         MockCallee callee = MockCallee(CALLEE);
-        callee.fakeFunc1(1);
+        callee.coolFunc1(1);
     }
     
     // .call() with no 1 empty string argument

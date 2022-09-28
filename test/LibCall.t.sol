@@ -10,7 +10,6 @@ import {Vm} from "forge-std/Vm.sol";
 // Contracts
 import "./mocks/MockDefault.sol";
 import "./mocks/call/MockCall.sol";
-import "./mocks/call/MockCall1.sol";
 import "../src/libraries/LibCall.sol";
 
 contract LibCallTest is DSTestPlus {
@@ -20,14 +19,12 @@ contract LibCallTest is DSTestPlus {
 
     MockDefault mockDefault;
     MockCall mockCall;
-    MockCall1 mockCall1;
 
     function setUp() public {
         utils = new Utilities();
 
         mockDefault = new MockDefault();
         mockCall = new MockCall();
-        mockCall1 = new MockCall1();
     }
 
     // function testCheckCallOpcodeSearchWorks() public {
@@ -54,6 +51,16 @@ contract LibCallTest is DSTestPlus {
         blacklist[3] = address(0x3);
         blacklist[4] = address(0x4);
         assertTrue(LibCall.checkCall(address(mockCall), blacklist));
+    }
+
+    function testCheckCallAndFunction() public {
+        // Check that checkCallAndFunction returns true when submitted contract uses CALL opcode and calls an address in the blacklist
+        address[] memory blacklist = new address[](4);
+        blacklist[0] = address(0x0);
+        blacklist[1] = address(0x1);
+        blacklist[2] = mockCall.CALLER();
+        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        assertTrue(LibCall.checkCallAndFunction(address(mockCall), blacklist, "coolFunc()"));
     }
 
 }
