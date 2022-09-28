@@ -21,10 +21,9 @@ library LibCall {
                     let addrSearchPtr := sub(ptr, 0x41)
                     // Loop through all bytes until addrSearchPtr = ptr, if we find a 0x73 byte save the pointer location
                     for { } lt(addrSearchPtr, ptr) { } {
-                        if eq(mload(addrSearchPtr), 0x73) {
-                            addrSearchPtr := add(addrSearchPtr, 0x20)
+                        if eq(shr(248, mload(addrSearchPtr)), 0x73) {
                             // Get the next 20 bytes (address) from memory
-                            let preShiftAddress := and(mload(addrSearchPtr), 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000000)
+                            let preShiftAddress := and(mload(add(addrSearchPtr, 1)), 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF000000000000000000000000)
                             // Shift word 12 bytes (0xC) to the right, so we store the address in the last 20 bytes of the word
                             let addressToCall := shr(96, preShiftAddress) 
 

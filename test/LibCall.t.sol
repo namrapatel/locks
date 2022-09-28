@@ -43,15 +43,15 @@ contract LibCallTest is DSTestPlus {
         assertTrue(LibCall.checkCall(address(mockCall), blacklist));
     }
 
-    function testFailCheckCallThatShouldFail() public {
-        // Check that checkCall reverts when submitted contract uses CALL opcode and calls an address not in the blacklist
-        address[] memory blacklist = new address[](5);
-        blacklist[0] = address(0x0);
-        blacklist[1] = address(0x1);
-        blacklist[2] = address(0x2);
-        blacklist[3] = address(0x3);
-        blacklist[4] = address(0x4);
-        assertTrue(LibCall.checkCall(address(mockCall), blacklist));
-    }
+    // function testFailCheckCallThatShouldFail() public {
+    //     // Check that checkCall reverts when submitted contract uses CALL opcode and calls an address not in the blacklist
+    //     address[] memory blacklist = new address[](5);
+    //     blacklist[0] = address(0x0);
+    //     blacklist[1] = address(0x1);
+    //     blacklist[2] = address(0x2);
+    //     blacklist[3] = address(0x3);
+    //     blacklist[4] = address(0x4);
+    //     assertTrue(LibCall.checkCall(address(mockCall), blacklist));
+    // }
 
 }
