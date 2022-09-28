@@ -5,9 +5,6 @@ library LibStorage {
 
     // Function that checks whether a submittedContract uses the SSTORE opcode
     function checkSSTORE(address submittedContract) public view returns (bool) {
-        // Loop through all opcodes in submitted contract
-        // If opcode is found, return true
-        // If opcode is not found, return false
         assembly {
             let size := extcodesize(submittedContract) // Get size of submitted contract
             let ptr := mload(0x40) // Get pointer to free memory
@@ -29,9 +26,6 @@ library LibStorage {
 
     // Function that checks whether a submittedContract uses the SLOAD opcode
     function checkSLOAD(address submittedContract) public view returns (bool) {
-        // Loop through all opcodes in submitted contract
-        // If opcode is found, return true
-        // If opcode is not found, return false
         assembly {
             let size := extcodesize(submittedContract) // Get size of submitted contract
             let ptr := mload(0x40) // Get pointer to free memory
