@@ -47,6 +47,4 @@ library LibCall {
         }
         return false;
     }
-
-    
 }

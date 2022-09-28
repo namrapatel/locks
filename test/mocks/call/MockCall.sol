@@ -19,33 +19,25 @@ contract MockCallee {
 contract MockCall {
 
     address public constant CALLER = 0x6dfc34609a05bC22319fA4Cce1d1E2929548c0D7;
-    address public constant CALLER2 = 0xc0E53C70dD53b5e1A8275Aa65ec07F20038F8317;
     address public constant CALLEE = 0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5;
 
-    // CALLEE addr appears to be 35 opcodes above CALL opcode
-
-
-    // 20
     // contract.func() with no arguments 
     function call0() public {
         MockCallee callee = MockCallee(CALLEE);
         callee.fakeFunc();
     }
 
-    // 22
     // contract.func(arg) with 1 argument
     function call1() public {
         MockCallee callee = MockCallee(CALLEE);
         callee.fakeFunc1(1);
     }
     
-    // 22
     // .call() with no 1 empty string argument
     function call2() public {
         CALLER.call("");
     }
 
-    // 57
     // .call() with abi.encodeWithSignature()
     function call3() public {
         (bool success, bytes memory data) = CALLER.call(abi.encodeWithSignature("fakeFunc()"));
