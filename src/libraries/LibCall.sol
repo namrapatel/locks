@@ -48,9 +48,8 @@ library LibCall {
         return false;
     }
 
-
     // Function that checks if submittedContract uses the opcode CALL (0xF1), then finds the address and function signature related to the CALL and checks them against a blacklist
-    function checkCallAndFunction(address submittedContract, address[] memory _blacklist, bytes4[] memory _functionBlacklist) public view returns (bool) {
+    function checkCallAndFunction(address submittedContract, address[] memory _blacklist, uint8[] functionsPerAddr, bytes4[] memory _functionBlacklist) public view returns (bool) {
         assembly {
             let size := extcodesize(submittedContract) // Get size of submitted contract
             let ptr := mload(0x40) // Get pointer to free memory
