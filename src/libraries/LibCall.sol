@@ -18,7 +18,7 @@ library LibCall {
                 if eq(opcode, 0xF1) {
 
                     // Set addrSearchPtr to 65 bytes before the location of the CALL opcode
-                    let addrSearchPtr := sub(ptr, 0x41)
+                    let addrSearchPtr := sub(ptr, 0x4B)
                     // Loop through all bytes until addrSearchPtr = ptr, if we find a 0x73 byte save the pointer location
                     for { } lt(addrSearchPtr, ptr) { } {
                         if eq(shr(248, mload(addrSearchPtr)), 0x73) {
