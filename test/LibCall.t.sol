@@ -66,9 +66,8 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[2] = 0;
         functionsPerAddr[3] = 2;
 
-        bytes4[] memory functionSelectors = new bytes4[](2);
-        functionSelectors[0] = bytes4(keccak256("coolFunc()"));
-        functionSelectors[1] = bytes4(keccak256("coolFunc1(uint)"));
+        bytes4[] memory functionSelectors = new bytes4[](1);
+        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall), blacklist, functionsPerAddr, functionSelectors));
     }
