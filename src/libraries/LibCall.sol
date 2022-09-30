@@ -49,7 +49,7 @@ library LibCall {
     }
 
     // Function that checks if submittedContract uses the opcode CALL (0xF1), then finds the address and function signature related to the CALL and checks them against a blacklist
-    function checkCallAndFunction(address submittedContract, address[] memory _blacklist, uint8[] functionsPerAddr, bytes4[] memory _functionBlacklist) public view returns (bool) {
+    function checkCallAndFunction(address submittedContract, address[] memory _blacklist, uint8[] memory functionsPerAddr, bytes4[] memory _functionBlacklist) public view returns (bool) {
         assembly {
             let size := extcodesize(submittedContract) // Get size of submitted contract
             let ptr := mload(0x40) // Get pointer to free memory
@@ -61,8 +61,9 @@ library LibCall {
                 let opcode := shr(248, mload(ptr)) 
                 // If opcode is CALL (0xF1), check if the address it calls is in the blacklist
                 if eq(opcode, 0xF1) {
-                    // Set addrSearchPtr to 65 bytes before the location of the CALL opcode
-                    let addrSearchPtr := sub(ptr, 0x41)
+                    // Set addrSearchPtr to 75 bytes before the location of the CALL opcode
+                    let addrSearchPtr := sub(ptr, 0x4B)
+                    let addrIndex := 0
                     // Loop through all bytes until addrSearchPtr = ptr, if we find a 0x73 byte save the pointer location
                     for { } lt(addrSearchPtr, ptr) { } {
                         if eq(shr(248, mload(addrSearchPtr)), 0x73) {
@@ -71,6 +72,27 @@ library LibCall {
                             // Shift word 12 bytes (0xC) to the right, so we store the address in the last 20 bytes of the word
                             let addressToCall := shr(96, preShiftAddress) 
 
+                            let addrFound := 0
+                            // Loop through all addresses in _blacklist and find the index of the address we are looking for in _blacklist
+                            for { let i := 0 } lt(i, mload(_blacklist)) { i := add(i, 1) } {
+                                // If address to call is in _blacklist, set address index to i
+                                if eq(addressToCall, mload(add(_blacklist, mul(add(i, 1), 0x20)))) { 
+                                    addrIndex := i
+                                    addrFound := 1
+                                    break
+                                }
+                            }
+
+                            // If address is not in _blacklist, break
+                            if eq(addrFound, 0) { break }
+
+                            // Loop through elements in functionsPerAddr until addrIndex = mload(functionsPerAddr[i])
+                            let bytes4IndexesToSkip := 0
+                            for { let i := 0 } lt(i, addrIndex) { i := add(i, 1) } {
+                                // Add the number at functionsPerAddr[i] to bytes4IndexesToSkip
+                                bytes4IndexesToSkip := add(bytes4IndexesToSkip, mload(add(functionsPerAddr, mul(add(i, 1), 0x20))))
+                            }
+
                             // Loop over the next 50 (0x32) bytes until a PUSH4 (0x63) byte is found
                             let functionSearchPtr := addrSearchPtr
                             let functionSearchEndPtr := add(addrSearchPtr, 0x32)
@@ -78,18 +100,13 @@ library LibCall {
                                 // If we find a 0x63 byte, get the next 4 bytes (function signature)
                                 if eq(shr(248, mload(functionSearchPtr)), 0x63) {
                                     let functionSig := and(mload(add(functionSearchPtr, 1)), 0xFFFFFFFF00000000000000000000000000000000000000000000000000000000)
-                                    // Loop through all addresses in blacklist
-                                    for { let i := 0 } lt(i, mload(_blacklist)) { i := add(i, 1) } {
-                                        // If address to call is in blacklist, return true
-                                        if eq(addressToCall, mload(add(_blacklist, mul(add(i, 1), 0x20)))) { 
-                                            // Loop through all function signatures in blacklist
-                                            for { let j := 0 } lt(j, mload(_functionBlacklist)) { j := add(j, 1) } {
-                                                // If function signature is in blacklist, return true
-                                                if eq(functionSig, mload(add(_functionBlacklist, mul(add(j, 1), 0x20)))) { 
-                                                    mstore(0, 1) // Store 1 in memory slot 0
-                                                    return(0, 0x20) // Return memory slot 0 with size 32 bytes
-                                                }
-                                            }
+
+                                    // Loop through all function signatures in _functionBlacklist, skipping the first bytes4IndexesToSkip
+                                    for { let j := bytes4IndexesToSkip } lt(j, add(bytes4IndexesToSkip, mload(functionsPerAddr))) { j := add(j, 1) } {
+                                        // If function signature is in _functionBlacklist, return true
+                                        if eq(functionSig, mload(add(_functionBlacklist, mul(add(j, 1), 0x20)))) { 
+                                            mstore(0, 1) // Store 1 in memory slot 0
+                                            return(0, 0x20) // Return memory slot 0 with size 32 bytes
                                         }
                                     }
                                     break
@@ -97,13 +114,14 @@ library LibCall {
                                 // Increment functionSearchPtr by 1 byte
                                 functionSearchPtr := add(functionSearchPtr, 1)
                             }
-                     }
-                     // Increment addrSearchPtr by 1 byte
-                    addrSearchPtr := add(addrSearchPtr, 1)
+                        }
+                        // Increment addrSearchPtr by 1 byte
+                        addrSearchPtr := add(addrSearchPtr, 1)
+                    }
                 }
-            }
-            ptr := add(ptr, 1) // Increment pointer
-        }
-    }   
-    return false;
+                ptr := add(ptr, 1) // Increment pointer
+            }   
+        }       
+        return false;
+    }    
 }
