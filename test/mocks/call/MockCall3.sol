@@ -10,6 +10,6 @@ contract MockCall3 {
 
     // .call() with abi.encodeWithSignature()
     function call() public {
-        (bool success, bytes memory data) = CALLER.call(abi.encodeWithSignature("fakeFunc()", 1));
+        (bool success, bytes memory data) = CALLEE.call(abi.encodeWithSignature("fakeFunc()", 1));
     }
 }

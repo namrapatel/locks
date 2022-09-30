@@ -10,6 +10,6 @@ contract MockCall2 {
 
     // .call() with no 1 empty string argument
     function call() public {
-        CALLER.call("");
+        CALLEE.call("");
     }
 }

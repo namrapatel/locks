@@ -10,7 +10,7 @@ contract MockCall4 {
 
     // .call() with abi.encodeWithSelector()
     function call() public {
-        (bool success, bytes memory data) = CALLER.call(abi.encodeWithSelector(bytes4(keccak256("fakeFunc()")), 1));
+        (bool success, bytes memory data) = CALLEE.call(abi.encodeWithSelector(bytes4(keccak256("fakeFunc()")), 1));
     }
 
 }

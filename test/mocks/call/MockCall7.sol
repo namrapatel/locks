@@ -11,7 +11,7 @@ contract MockCall7 {
     // .call() on address from storage
     function call() public {
         bytes memory payload = abi.encodeWithSignature("register(string)", "MyName");
-        (bool success, bytes memory returnData) = CALLER.call(payload);
+        (bool success, bytes memory returnData) = CALLEE.call(payload);
     }
     
 }

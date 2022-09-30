@@ -10,7 +10,7 @@ contract MockCall6 {
 
     // .call() with abi.encodeCall() with 1 argument
     function call() public {
-        (bool success, bytes memory data) = CALLER.call(abi.encodeCall(
+        (bool success, bytes memory data) = CALLEE.call(abi.encodeCall(
             MockCallee.fakeFunc1,
             (1))
         );

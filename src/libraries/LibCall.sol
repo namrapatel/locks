@@ -17,8 +17,8 @@ library LibCall {
                 // If opcode is CALL (0xF1), check if the address it calls is in the blacklist
                 if eq(opcode, 0xF1) {
 
-                    // Set addrSearchPtr to 65 bytes before the location of the CALL opcode
-                    let addrSearchPtr := sub(ptr, 0x4B)
+                    // Set addrSearchPtr to 100 bytes before the location of the CALL opcode
+                    let addrSearchPtr := sub(ptr, 0x64)
                     // Loop through all bytes until addrSearchPtr = ptr, if we find a 0x73 byte save the pointer location
                     for { } lt(addrSearchPtr, ptr) { } {
                         if eq(shr(248, mload(addrSearchPtr)), 0x73) {
@@ -62,7 +62,7 @@ library LibCall {
                 // If opcode is CALL (0xF1), check if the address it calls is in the blacklist
                 if eq(opcode, 0xF1) {
                     // Set addrSearchPtr to 75 bytes before the location of the CALL opcode
-                    let addrSearchPtr := sub(ptr, 0x4B)
+                    let addrSearchPtr := sub(ptr, 0x64)
                     let addrIndex := 0
                     // Loop through all bytes until addrSearchPtr = ptr, if we find a 0x73 byte save the pointer location
                     for { } lt(addrSearchPtr, ptr) { } {

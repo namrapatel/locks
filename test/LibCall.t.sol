@@ -62,7 +62,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall.CALLEE();
         assertTrue(LibCall.checkCall(address(mockCall), blacklist));
     }
 
@@ -72,7 +72,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall1.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall1.CALLEE();
         assertTrue(LibCall.checkCall(address(mockCall1), blacklist));
     }
 
@@ -82,7 +82,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall2.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall2.CALLEE();
         assertTrue(LibCall.checkCall(address(mockCall2), blacklist));
     }
 
@@ -92,7 +92,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall3.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall3.CALLEE();
         assertTrue(LibCall.checkCall(address(mockCall3), blacklist));
     }
 
@@ -102,7 +102,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall4.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall4.CALLEE();
         assertTrue(LibCall.checkCall(address(mockCall4), blacklist));
     }
 
@@ -112,7 +112,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall5.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall5.CALLEE();
         assertTrue(LibCall.checkCall(address(mockCall5), blacklist));
     }
 
@@ -122,7 +122,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall6.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall6.CALLEE();
         assertTrue(LibCall.checkCall(address(mockCall6), blacklist));
     }
 
@@ -132,7 +132,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall7.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall7.CALLEE();
         assertTrue(LibCall.checkCall(address(mockCall7), blacklist));
     }
 
@@ -142,7 +142,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall8.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall8.CALLEE();
         assertTrue(LibCall.checkCall(address(mockCall8), blacklist));
     }
 
