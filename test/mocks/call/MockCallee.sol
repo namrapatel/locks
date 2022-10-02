@@ -5,22 +5,22 @@ contract MockCallee {
 
     uint coolNum = 0;
 
-    function fakeFunc(uint num) public returns (uint) {
+    function fakeFunc(uint256 num) public returns (uint) {
         coolNum = num;
         return 1;
     }
 
-    function fakeFunc1(uint num) public returns (uint) {
+    function niceFunc(uint256 num) public returns (uint) {
         coolNum += num;
         return 2;
     }
 
-    function coolFunc(uint num) public returns (uint) {
+    function coolFunc(uint256 num) public returns (uint) {
         coolNum += num;
         return 1;
     }
 
-    function coolFunc1(uint num) public returns (uint) {
+    function weirdFunc(uint256 num) public returns (uint) {
         coolNum += num;
         return 2;
     }

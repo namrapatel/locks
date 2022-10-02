@@ -1,0 +1,113 @@
+{
+	"compiler": {
+		"version": "0.8.13+commit.abaa5c0e"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "CALLEE",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "CALLER",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "anotherDopeFunction",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "dopeFunction",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"name": "nums",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"Users/n2000/dev/seeds/test/mocks/call/MockCall4.sol": "MockCall4"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"Users/n2000/dev/seeds/test/mocks/call/MockCall4.sol": {
+			"keccak256": "0x3bb9a2820bd4e941ac6a36e26c122345e67c04184314197701494688897b1074",
+			"license": "MIT License",
+			"urls": [
+				"bzz-raw://363a3f7abb0a0703067b8a9c0ece2c35ae2e11c4bba61586ad50d4b07684559d",
+				"dweb:/ipfs/QmVswqcPfyUvBTPkdKzYN2KARXZ5SzwXGwCrJ7RwBT6YFi"
+			]
+		},
+		"Users/n2000/dev/seeds/test/mocks/call/MockCallee.sol": {
+			"keccak256": "0xb3eb853222ee938e90b7a7208e3852fed0f91b974543205cac48ead419ec18d3",
+			"license": "MIT License",
+			"urls": [
+				"bzz-raw://ccdc30845238e8ee85a08a35f24cff68182bf15672ad910cde798bc8e3176b12",
+				"dweb:/ipfs/QmTkDeDoxXXXhr3GZKv6cJ2Jc1XQhStVWHtvZudN4gvz99"
+			]
+		}
+	},
+	"version": 1
+}

@@ -171,7 +171,7 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[3] = 2;
 
         bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
+        functionSelectors[0] = bytes4(keccak256("coolFunc(uint256)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall), blacklist, functionsPerAddr, functionSelectors));
     }
@@ -190,12 +190,12 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[3] = 2;
 
         bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
+        functionSelectors[0] = bytes4(keccak256("coolFunc(uint256)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall1), blacklist, functionsPerAddr, functionSelectors));
     }
 
-    function testCheckCallAndFunction2() public {
+    function testFailCheckCallAndFunction2() public {
         // Check that checkCall returns true when submitted contract uses CALL opcode and calls an address in the blacklist
         address[] memory blacklist = new address[](4);
         blacklist[0] = address(0x0);
@@ -209,7 +209,7 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[3] = 2;
 
         bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
+        functionSelectors[0] = bytes4(keccak256("coolFunc(uint256)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall2), blacklist, functionsPerAddr, functionSelectors));
     }
@@ -228,7 +228,7 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[3] = 2;
 
         bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
+        functionSelectors[0] = bytes4(keccak256("fakeFunc(uint256)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall3), blacklist, functionsPerAddr, functionSelectors));
     }
@@ -247,7 +247,7 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[3] = 2;
 
         bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
+        functionSelectors[0] = bytes4(keccak256("niceFunc(uint256)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall4), blacklist, functionsPerAddr, functionSelectors));
     }
@@ -266,7 +266,7 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[3] = 2;
 
         bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
+        functionSelectors[0] = bytes4(keccak256("fakeFunc(uint256)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall5), blacklist, functionsPerAddr, functionSelectors));
     }
@@ -285,7 +285,7 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[3] = 2;
 
         bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
+        functionSelectors[0] = bytes4(keccak256("niceFunc(uint256)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall6), blacklist, functionsPerAddr, functionSelectors));
     }
@@ -304,7 +304,7 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[3] = 2;
 
         bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
+        functionSelectors[0] = bytes4(keccak256("register(string)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall7), blacklist, functionsPerAddr, functionSelectors));
     }
@@ -322,9 +322,11 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[2] = 0;
         functionsPerAddr[3] = 2;
 
-        bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint)"));
+        bytes4[] memory functionSelectors = new bytes4[](4);
+        functionSelectors[0] = bytes4(keccak256("register(string)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall8), blacklist, functionsPerAddr, functionSelectors));
     }
+
+    
 }

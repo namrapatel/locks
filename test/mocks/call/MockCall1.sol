@@ -11,6 +11,6 @@ contract MockCall1 {
     // contract.func(arg) with 1 argument
     function call() public {
         MockCallee callee = MockCallee(CALLEE);
-        callee.coolFunc1(1);
+        callee.weirdFunc(1);
     }
 }

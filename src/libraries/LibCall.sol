@@ -61,8 +61,8 @@ library LibCall {
                 let opcode := shr(248, mload(ptr)) 
                 // If opcode is CALL (0xF1), check if the address it calls is in the blacklist
                 if eq(opcode, 0xF1) {
-                    // Set addrSearchPtr to 75 bytes before the location of the CALL opcode
-                    let addrSearchPtr := sub(ptr, 0x64)
+                    // Set addrSearchPtr to 150 bytes before the location of the CALL opcode
+                    let addrSearchPtr := sub(ptr, 0x96)
                     let addrIndex := 0
                     // Loop through all bytes until addrSearchPtr = ptr, if we find a 0x73 byte save the pointer location
                     for { } lt(addrSearchPtr, ptr) { } {
@@ -93,18 +93,26 @@ library LibCall {
                                 bytes4IndexesToSkip := add(bytes4IndexesToSkip, mload(add(functionsPerAddr, mul(add(i, 1), 0x20))))
                             }
 
-                            // Loop over the next 50 (0x32) bytes until a PUSH4 (0x63) byte is found
+                            // Loop over the next 100 (0x32) bytes until a PUSH4 (0x63) byte is found
                             let functionSearchPtr := addrSearchPtr
-                            let functionSearchEndPtr := add(addrSearchPtr, 0x32)
+                            let functionSearchEndPtr := add(addrSearchPtr, 0x64)
                             for { } lt(functionSearchPtr, functionSearchEndPtr) { } {
                                 // If we find a 0x63 byte, get the next 4 bytes (function signature)
                                 if eq(shr(248, mload(functionSearchPtr)), 0x63) {
-                                    let functionSig := and(mload(add(functionSearchPtr, 1)), 0xFFFFFFFF00000000000000000000000000000000000000000000000000000000)
+                                    let preShiftFuncSig := and(mload(add(functionSearchPtr, 1)), 0xFFFFFFFF00000000000000000000000000000000000000000000000000000000)
+                                    // shift left preShiftFuncsig by whatever opcode is 2 bytes next
+                                    // let funcSig := shl(shr(248, mload(add(functionSearchPtr, 2))), preShiftFuncSig)
+
+                                    // Get the opcode 2 bytes after the 0x63 byte
+                                    let opcode2 := shr(248, mload(add(functionSearchPtr, 2)))
+                                    // shift left preShiftFuncsig by opcode2
+                                    let funcSig := shl(opcode2, preShiftFuncSig)
+
 
                                     // Loop through all function signatures in _functionBlacklist, skipping the first bytes4IndexesToSkip
                                     for { let j := bytes4IndexesToSkip } lt(j, add(bytes4IndexesToSkip, mload(functionsPerAddr))) { j := add(j, 1) } {
                                         // If function signature is in _functionBlacklist, return true
-                                        if eq(functionSig, mload(add(_functionBlacklist, mul(add(j, 1), 0x20)))) { 
+                                        if eq(funcSig, mload(add(_functionBlacklist, mul(add(j, 1), 0x20)))) { 
                                             mstore(0, 1) // Store 1 in memory slot 0
                                             return(0, 0x20) // Return memory slot 0 with size 32 bytes
                                         }
@@ -124,4 +132,9 @@ library LibCall {
         }       
         return false;
     }    
+
+    function checkCallTest(address submittedContract) public view returns(bytes memory) {
+        return submittedContract.code;
+    }
+
 }
