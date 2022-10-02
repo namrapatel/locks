@@ -100,13 +100,12 @@ library LibCall {
                                 // If we find a 0x63 byte, get the next 4 bytes (function signature)
                                 if eq(shr(248, mload(functionSearchPtr)), 0x63) {
                                     let preShiftFuncSig := and(mload(add(functionSearchPtr, 1)), 0xFFFFFFFF00000000000000000000000000000000000000000000000000000000)
-                                    // shift left preShiftFuncsig by whatever opcode is 2 bytes next
-                                    // let funcSig := shl(shr(248, mload(add(functionSearchPtr, 2))), preShiftFuncSig)
-
-                                    // Get the opcode 2 bytes after the 0x63 byte
-                                    let opcode2 := shr(248, mload(add(functionSearchPtr, 2)))
+                                    // shift word 28 bytes (0x1C) to the right, so we store the function signature in the last 4 bytes of the word
+                                    let functionSig := shr(224, preShiftFuncSig)
+                                    // Get the opcode 6 bytes after the 0x63 byte
+                                    let opcodeAfterPush4 := shr(248, mload(add(functionSearchPtr, 6)))
                                     // shift left preShiftFuncsig by opcode2
-                                    let funcSig := shl(opcode2, preShiftFuncSig)
+                                    let funcSig := shl(opcodeAfterPush4, functionSig)
 
 
                                     // Loop through all function signatures in _functionBlacklist, skipping the first bytes4IndexesToSkip
