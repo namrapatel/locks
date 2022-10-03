@@ -190,7 +190,7 @@ contract LibCallTest is DSTestPlus {
         functionsPerAddr[3] = 2;
 
         bytes4[] memory functionSelectors = new bytes4[](1);
-        functionSelectors[0] = bytes4(keccak256("coolFunc(uint256)"));
+        functionSelectors[0] = bytes4(keccak256("weirdFunc(uint256)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall1), blacklist, functionsPerAddr, functionSelectors));
     }
@@ -328,5 +328,8 @@ contract LibCallTest is DSTestPlus {
         assertTrue(LibCall.checkCallAndFunction(address(mockCall8), blacklist, functionsPerAddr, functionSelectors));
     }
 
+    function testExt() public {
+        console.logBytes(address(mockCall3).code);
+    }
     
 }
