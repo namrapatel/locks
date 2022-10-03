@@ -7,13 +7,14 @@ contract MockCall1 {
 
     address public constant CALLER = 0x6dfc34609a05bC22319fA4Cce1d1E2929548c0D7;
     address public constant CALLEE = 0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5;
+    address public constant FAKEADDR = 0x230480912884950823e9048832949580e4098234;
 
     // contract.func(arg) with 1 argument
     function call() public {
-        // MockCallee callee = MockCallee(CALLEE);
-        // callee.weirdFunc(1);
+        MockCallee callee = MockCallee(CALLEE);
+        callee.coolFunc(1);
 
-        address(0x0).call(abi.encodeWithSignature("niceFunc(uint256)", 1));
+        // address(FAKEADDR).call(abi.encodeWithSignature("niceFunc(uint256)", 1));
 
         // address(0x1).call(abi.encodeWithSignature("s(uint256)", 1));
 

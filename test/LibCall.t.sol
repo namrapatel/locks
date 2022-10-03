@@ -180,7 +180,7 @@ contract LibCallTest is DSTestPlus {
         // Check that checkCall returns true when submitted contract uses CALL opcode and calls an address in the blacklist
         address[] memory blacklist = new address[](4);
         blacklist[0] = address(0x0);
-        blacklist[1] = address(0x1);
+        blacklist[1] = mockCall1.FAKEADDR();
         blacklist[2] = mockCall1.CALLER();
         blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
         
@@ -193,7 +193,7 @@ contract LibCallTest is DSTestPlus {
         bytes4[] memory functionSelectors = new bytes4[](6);
         // address(0x0)
         functionSelectors[0] = bytes4(keccak256("weirdFunc(uint256)"));
-        // address(0x1)
+        // address(FAKEADDR)
         functionSelectors[1] = bytes4(keccak256("coolFunc(uint256)"));
         functionSelectors[2] = bytes4(keccak256("weirdFunc(uint256)"));
         // address(0x6dfc34609a05bC22319fA4Cce1d1E2929548c0D7)

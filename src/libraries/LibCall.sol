@@ -48,7 +48,7 @@ library LibCall {
     }
 
     // Function that checks if submittedContract uses the opcode CALL (0xF1), then finds the address and function signature related to the CALL and checks them against a blacklist
-    function checkCallAndFunction(address submittedContract, address[] memory _blacklist, uint8[] memory functionsPerAddr, bytes4[] memory _functionBlacklist) public view returns (bool) {
+    function checkCallAndFunction(address submittedContract, address[] memory addressList, uint8[] memory functionsPerAddr, bytes4[] memory _functionBlacklist) public view returns (bool) {
         assembly {
             let size := extcodesize(submittedContract) // Get size of submitted contract
             let ptr := mload(0x40) // Get pointer to free memory
@@ -72,10 +72,10 @@ library LibCall {
                             let addressToCall := shr(96, preShiftAddress) 
 
                             let addrFound := 0
-                            // Loop through all addresses in _blacklist and find the index of the address we are looking for in _blacklist
-                            for { let i := 0 } lt(i, mload(_blacklist)) { i := add(i, 1) } {
-                                // If address to call is in _blacklist, set address index to i
-                                if eq(addressToCall, mload(add(_blacklist, mul(add(i, 1), 0x20)))) { 
+                            // Loop through all addresses in addressList and find the index of the address we are looking for in _blacklist
+                            for { let i := 0 } lt(i, mload(addressList)) { i := add(i, 1) } {
+                                // If address to call is in addressList, set address index to i
+                                if eq(addressToCall, mload(add(addressList, mul(add(i, 1), 0x20)))) { 
                                     addrIndex := i
                                     addrFound := 1
                                     break
@@ -86,13 +86,14 @@ library LibCall {
                             if eq(addrFound, 0) { break }
 
                             // Loop through elements in functionsPerAddr until addrIndex = mload(functionsPerAddr[i])
-                            let bytes4IndexesToSkip := 0
+                            let elementsToSkip := 0
                             let indexToEndAt := 0
                             for { let i := 0 } lt(i, addrIndex) { i := add(i, 1) } {
-                                // Add the number at functionsPerAddr[i] to bytes4IndexesToSkip
-                                bytes4IndexesToSkip := add(bytes4IndexesToSkip, mload(add(functionsPerAddr, mul(add(i, 1), 0x20))))
-                                // Store the number at functionsPerAddr[i] in indexToEndAt
-                                indexToEndAt := mload(add(functionsPerAddr, mul(add(i, 1), 0x20)))
+                                // Add the number at functionsPerAddr[i] to elementsToSkip
+                                elementsToSkip := add(elementsToSkip, mload(add(functionsPerAddr, mul(add(i, 1), 0x20))))
+                                // Store the number at functionsPerAddr[i+1] in indexToEndAt
+                                indexToEndAt := mload(add(functionsPerAddr, mul(add(add(i, 1), 1), 0x20)))
+                                // indexToEndAt := mload(add(functionsPerAddr, mul(add(i, 1), 0x20)))
                             }
 
                             // Loop over the next 100 (0x64) bytes until a PUSH4 (0x63) byte is found
@@ -109,9 +110,9 @@ library LibCall {
                                     // shift left preShiftFuncsig by opcode2
                                     let funcSig := shl(opcodeAfterPush4, functionSig)
 
-                                    // Loop through all function signatures in _functionBlacklist, skipping the first bytes4IndexesToSkip function signatures
+                                    // Loop through all function signatures in _functionBlacklist, skipping the first elementsToSkip function signatures
                                     // and stop checking at indexToEndAt
-                                    for { let i := bytes4IndexesToSkip } lt(i, add(bytes4IndexesToSkip, indexToEndAt)) { i := add(i, 1) } {
+                                    for { let i := elementsToSkip } lt(i, add(elementsToSkip, indexToEndAt)) { i := add(i, 1) } {
                                         // If function signature is in _functionBlacklist, return true
                                         if eq(funcSig, mload(add(_functionBlacklist, mul(add(i, 1), 0x20)))) { 
                                             mstore(0, 1) // Store 1 in memory slot 0
@@ -119,10 +120,7 @@ library LibCall {
                                         }
                                     }
 
-
-
-
-                                    // for { let j := bytes4IndexesToSkip } lt(j, add(bytes4IndexesToSkip, mload(functionsPerAddr))) { j := add(j, 1) } { 
+                                    // for { let j := elementsToSkip } lt(j, add(elementsToSkip, mload(functionsPerAddr))) { j := add(j, 1) } { 
                                     //     // If function signature is in _functionBlacklist, return true
                                     //     if eq(funcSig, mload(add(_functionBlacklist, mul(add(j, 1), 0x20)))) { 
                                     //         mstore(0, 1) // Store 1 in memory slot 0
