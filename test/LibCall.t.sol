@@ -182,7 +182,7 @@ contract LibCallTest is DSTestPlus {
         blacklist[0] = address(0x0);
         blacklist[1] = mockCall1.FAKEADDR();
         blacklist[2] = mockCall1.CALLER();
-        blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        blacklist[3] = mockCall1.CALLEE();
         
         uint8[] memory functionsPerAddr = new uint8[](4);
         functionsPerAddr[0] = 1;
@@ -203,6 +203,10 @@ contract LibCallTest is DSTestPlus {
         functionSelectors[5] = bytes4(keccak256("weirdFunc(uint256)"));
         
         assertTrue(LibCall.checkCallAndFunction(address(mockCall1), blacklist, functionsPerAddr, functionSelectors));
+    }
+
+    function testExt() public {
+        console.logBytes(address(mockCall5).code);
     }
 
     function testFailCheckCallAndFunction2() public {

@@ -13,11 +13,5 @@ contract MockCall1 {
     function call() public {
         MockCallee callee = MockCallee(CALLEE);
         callee.coolFunc(1);
-
-        // address(FAKEADDR).call(abi.encodeWithSignature("niceFunc(uint256)", 1));
-
-        // address(0x1).call(abi.encodeWithSignature("s(uint256)", 1));
-
-        // address(CALLER).call(abi.encodeWithSignature("weirdFunc(uint256)", 1));
     }
 }
