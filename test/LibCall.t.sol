@@ -326,10 +326,5 @@ contract LibCallTest is DSTestPlus {
         functionSelectors[0] = bytes4(keccak256("register(string)"));
 
         assertTrue(LibCall.checkCallAndFunction(address(mockCall8), blacklist, functionsPerAddr, functionSelectors));
-    }
-
-    function testExt() public {
-        console.logBytes(address(mockCall3).code);
-    }
-    
+    }    
 }
