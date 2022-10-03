@@ -183,15 +183,25 @@ contract LibCallTest is DSTestPlus {
         blacklist[1] = address(0x1);
         blacklist[2] = mockCall1.CALLER();
         blacklist[3] = address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5);
+        
         uint8[] memory functionsPerAddr = new uint8[](4);
-        functionsPerAddr[0] = 0;
-        functionsPerAddr[1] = 0;
-        functionsPerAddr[2] = 0;
+        functionsPerAddr[0] = 1;
+        functionsPerAddr[1] = 2;
+        functionsPerAddr[2] = 1;
         functionsPerAddr[3] = 2;
 
-        bytes4[] memory functionSelectors = new bytes4[](1);
+        bytes4[] memory functionSelectors = new bytes4[](6);
+        // address(0x0)
         functionSelectors[0] = bytes4(keccak256("weirdFunc(uint256)"));
-
+        // address(0x1)
+        functionSelectors[1] = bytes4(keccak256("coolFunc(uint256)"));
+        functionSelectors[2] = bytes4(keccak256("weirdFunc(uint256)"));
+        // address(0x6dfc34609a05bC22319fA4Cce1d1E2929548c0D7)
+        functionSelectors[3] = bytes4(keccak256("coolFunc(uint256)"));
+        // address(0xb0EdA4f836aF0F8Ca667700c42fcEFA0742ae2B5)
+        functionSelectors[4] = bytes4(keccak256("niceFunc(uint256)"));
+        functionSelectors[5] = bytes4(keccak256("weirdFunc(uint256)"));
+        
         assertTrue(LibCall.checkCallAndFunction(address(mockCall1), blacklist, functionsPerAddr, functionSelectors));
     }
 

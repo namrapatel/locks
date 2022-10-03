@@ -10,7 +10,13 @@ contract MockCall1 {
 
     // contract.func(arg) with 1 argument
     function call() public {
-        MockCallee callee = MockCallee(CALLEE);
-        callee.weirdFunc(1);
+        // MockCallee callee = MockCallee(CALLEE);
+        // callee.weirdFunc(1);
+
+        address(0x0).call(abi.encodeWithSignature("niceFunc(uint256)", 1));
+
+        // address(0x1).call(abi.encodeWithSignature("s(uint256)", 1));
+
+        // address(CALLER).call(abi.encodeWithSignature("weirdFunc(uint256)", 1));
     }
 }

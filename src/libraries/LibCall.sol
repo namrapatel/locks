@@ -16,7 +16,6 @@ library LibCall {
                 let opcode := shr(248, mload(ptr)) 
                 // If opcode is CALL (0xF1), check if the address it calls is in the blacklist
                 if eq(opcode, 0xF1) {
-
                     // Set addrSearchPtr to 100 bytes before the location of the CALL opcode
                     let addrSearchPtr := sub(ptr, 0x64)
                     // Loop through all bytes until addrSearchPtr = ptr, if we find a 0x73 byte save the pointer location
@@ -88,12 +87,15 @@ library LibCall {
 
                             // Loop through elements in functionsPerAddr until addrIndex = mload(functionsPerAddr[i])
                             let bytes4IndexesToSkip := 0
+                            let indexToEndAt := 0
                             for { let i := 0 } lt(i, addrIndex) { i := add(i, 1) } {
                                 // Add the number at functionsPerAddr[i] to bytes4IndexesToSkip
                                 bytes4IndexesToSkip := add(bytes4IndexesToSkip, mload(add(functionsPerAddr, mul(add(i, 1), 0x20))))
+                                // Store the number at functionsPerAddr[i] in indexToEndAt
+                                indexToEndAt := mload(add(functionsPerAddr, mul(add(i, 1), 0x20)))
                             }
 
-                            // Loop over the next 100 (0x32) bytes until a PUSH4 (0x63) byte is found
+                            // Loop over the next 100 (0x64) bytes until a PUSH4 (0x63) byte is found
                             let functionSearchPtr := addrSearchPtr
                             let functionSearchEndPtr := add(addrSearchPtr, 0x64)
                             for { } lt(functionSearchPtr, functionSearchEndPtr) { } {
@@ -107,16 +109,27 @@ library LibCall {
                                     // shift left preShiftFuncsig by opcode2
                                     let funcSig := shl(opcodeAfterPush4, functionSig)
 
-
-                                    // Loop through all function signatures in _functionBlacklist, skipping the first bytes4IndexesToSkip
-                                    for { let j := bytes4IndexesToSkip } lt(j, add(bytes4IndexesToSkip, mload(functionsPerAddr))) { j := add(j, 1) } {
+                                    // Loop through all function signatures in _functionBlacklist, skipping the first bytes4IndexesToSkip function signatures
+                                    // and stop checking at indexToEndAt
+                                    for { let i := bytes4IndexesToSkip } lt(i, add(bytes4IndexesToSkip, indexToEndAt)) { i := add(i, 1) } {
                                         // If function signature is in _functionBlacklist, return true
-                                        if eq(funcSig, mload(add(_functionBlacklist, mul(add(j, 1), 0x20)))) { 
+                                        if eq(funcSig, mload(add(_functionBlacklist, mul(add(i, 1), 0x20)))) { 
                                             mstore(0, 1) // Store 1 in memory slot 0
                                             return(0, 0x20) // Return memory slot 0 with size 32 bytes
                                         }
                                     }
-                                    break
+
+
+
+
+                                    // for { let j := bytes4IndexesToSkip } lt(j, add(bytes4IndexesToSkip, mload(functionsPerAddr))) { j := add(j, 1) } { 
+                                    //     // If function signature is in _functionBlacklist, return true
+                                    //     if eq(funcSig, mload(add(_functionBlacklist, mul(add(j, 1), 0x20)))) { 
+                                    //         mstore(0, 1) // Store 1 in memory slot 0
+                                    //         return(0, 0x20) // Return memory slot 0 with size 32 bytes
+                                    //     }
+                                    // }
+                                    // break
                                 }
                                 // Increment functionSearchPtr by 1 byte
                                 functionSearchPtr := add(functionSearchPtr, 1)
